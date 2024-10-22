@@ -1,0 +1,4 @@
+# Ignore the node_modules directory (will be created on package install)
+node_modules
+
+.gitignore

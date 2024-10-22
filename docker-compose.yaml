@@ -1,0 +1,61 @@
+services:
+  db:
+    image: postgres:13
+    env_file:
+      - ./ts_test_backend/.env
+    environment:
+      POSTGRES_DB: ts-test-db
+      POSTGRES_USER: ts-test-user
+      POSTGRES_PASSWORD: "@Surafel24"
+    volumes:
+      - ts_postgres_data_db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - ts-test-network
+
+
+  backend:
+    build:
+      context: ./ts_test_backend
+    container_name: ts_django_api
+    volumes:
+      - ./ts_test_backend:/app
+      - ./ts_test_backend/static:/app/static 
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
+    env_file:
+      - ./ts_test_backend/.env
+    command: >
+      sh -c "
+      python manage.py migrate --noinput &&
+      python manage.py runserver 0.0.0.0:80
+      "
+    networks:
+      - ts-test-network
+
+  frontend:
+    build:
+      context: ./ts_test_frontend
+      dockerfile: Dockerfile.dev
+    container_name: ts_next_app
+    command: npm run dev
+    develop:
+      watch:
+        - action: sync
+          path: ./ts_test_frontend/
+          target: /app/
+    ports:
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+volumes:
+  ts_postgres_data_db:
+
+networks:
+  ts-test-network:
+    name: ts-test-network
+    driver: bridge
