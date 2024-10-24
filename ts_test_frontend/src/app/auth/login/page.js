@@ -24,7 +24,6 @@ function Login() {
       const response = await loginUser(userInfo);
 
       console.log(response.data);
-      
 
       if (response.status >= 200 && response.status < 300) {
         login(response.data.access);

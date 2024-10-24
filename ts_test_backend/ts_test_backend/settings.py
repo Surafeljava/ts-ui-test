@@ -148,13 +148,9 @@ SOCIAL_AUTH_GOOGLE_SECRET = env('GOOGLE_OAUTH_SECRET')
 #     'JWT_SERIALIZER': 'afroawi_backend.serializers.CustomJWTSerializer',
 # }
 
-REST_AUTH_SERIALIZERS = {
-    'LOGIN_SERIALIZER': 'ts_test_backend.serializers.CustomLoginSerializer',
-}
-
-REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'ts_test_backend.serializers.CustomRegisterSerializer',
-}
+# REST_AUTH_SERIALIZERS = {
+#     'LOGIN_SERIALIZER': 'ts_test_backend.serializers.CustomLoginSerializer',
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

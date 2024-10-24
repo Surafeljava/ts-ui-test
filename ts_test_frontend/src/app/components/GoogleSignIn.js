@@ -19,7 +19,7 @@ const GoogleSignIn = () => {
     
     const data = response.data;
 
-    login(data.token);
+    login(data.access);
 };
 
 const handleError = () => {
