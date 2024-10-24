@@ -19,9 +19,11 @@ services:
     build:
       context: ./ts_test_backend
     container_name: ts_django_api
-    volumes:
-      - ./ts_test_backend:/app
-      - ./ts_test_backend/static:/app/static 
+    develop:
+      watch:
+        - action: sync
+          path: ./ts_test_backend/
+          target: /app/
     ports:
       - "8000:80"
     depends_on:

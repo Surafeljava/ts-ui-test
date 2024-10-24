@@ -24,12 +24,13 @@ export const AuthProvider = ({ children }) => {
   const login = (token) => {
     Cookies.set('token', token);
     setIsAuthenticated(true);
+    router.push('/');
   };
 
   const logout = () => {
     Cookies.remove('token');
     setIsAuthenticated(false);
-    router.push('/login');
+    // router.push('/auth/login');
   };
 
   return (

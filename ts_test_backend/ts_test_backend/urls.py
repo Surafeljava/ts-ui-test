@@ -20,6 +20,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from .views import google_login
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,4 +36,7 @@ urlpatterns += [
     # JWT Authentication
     path('auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # JWT obtain
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # JWT refresh
+
+    # Google OAuth2 login (Allauth social login)
+    path('auth/social/google/', google_login),
 ]

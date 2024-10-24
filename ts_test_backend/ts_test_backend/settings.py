@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt.token_blacklist',
@@ -73,12 +75,17 @@ AUTHENTICATION_BACKENDS = (
 # REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # Only JWT Authentication
     ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',  # Default permission
+        'rest_framework.permissions.IsAuthenticated',  # Use this for global views, override with AllowAny for specific ones
     ],
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',  # Add your frontend URL here
+    'http://127.0.0.1:3000',  # Add your frontend URL here
+]
 
 
 REST_USE_JWT = True  # Let dj_rest_auth know you're using JWT
@@ -88,7 +95,7 @@ REST_AUTH_TOKEN_MODEL = None  # Disable the token model
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
-
+SOCIALACCOUNT_LOGIN_ON_GET = True
 
 ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Set to 'mandatory' for email verification
 ACCOUNT_EMAIL_REQUIRED = True
@@ -109,10 +116,33 @@ SIMPLE_JWT = {
 }
 
 
-REST_AUTH_SERIALIZERS = {
-    'JWT_SERIALIZER': 'afroawi_backend.serializers.CustomJWTSerializer',
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+        'OAUTH_PKCE_ENABLED': True,  # To support PKCE
+        'APP': {
+            'client_id': env('GOOGLE_OAUTH_CLIENT_ID'),
+            'secret': env('GOOGLE_OAUTH_SECRET'),
+            'key': ''
+        },
+    }
 }
 
+SOCIAL_AUTH_GOOGLE_CLIENT_ID = env('GOOGLE_OAUTH_CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_SECRET = env('GOOGLE_OAUTH_SECRET')
+
+# REST_AUTH_SERIALIZERS = {
+#     'JWT_SERIALIZER': 'afroawi_backend.serializers.CustomJWTSerializer',
+# }
+
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'ts_test_backend.serializers.CustomLoginSerializer',
+    'REGISTER_SERIALIZER': 'ts_test_backend.serializers.CustomRegisterSerializer',
+}
+
+# REST_AUTH_REGISTER_SERIALIZERS = {
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -124,6 +154,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'ts_test_backend.middleware.DisableCSRFMiddleware',
 ]
 
 ROOT_URLCONF = 'ts_test_backend.urls'
