@@ -103,6 +103,16 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Use 'username_email' if both options 
 ACCOUNT_USERNAME_REQUIRED = False
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# For production: configure a real email service
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'  # Example using Gmail
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-email@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your-password'
+
 # SimpleJWT settings (optional, customize as needed)
 from datetime import timedelta
 
@@ -111,6 +121,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
+    'SIGNING_KEY': env('SECRET_KEY'),
     'AUTH_HEADER_TYPES': ('Bearer',),
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
@@ -138,11 +149,11 @@ SOCIAL_AUTH_GOOGLE_SECRET = env('GOOGLE_OAUTH_SECRET')
 
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'ts_test_backend.serializers.CustomLoginSerializer',
-    'REGISTER_SERIALIZER': 'ts_test_backend.serializers.CustomRegisterSerializer',
 }
 
-# REST_AUTH_REGISTER_SERIALIZERS = {
-# }
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'ts_test_backend.serializers.CustomRegisterSerializer',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

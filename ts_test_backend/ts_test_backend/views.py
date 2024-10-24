@@ -11,6 +11,10 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from django.views.decorators.csrf import csrf_exempt
 
+
+from allauth.account.views import ConfirmEmailView
+from django.shortcuts import redirect
+
 User = get_user_model()
 
 @csrf_exempt
@@ -37,3 +41,16 @@ def google_login(request):
     except ValueError:
         print("token--->>>" , token)
         return JsonResponse({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CustomEmailConfirmView(ConfirmEmailView):
+    def get(self, *args, **kwargs):
+        # Handle the email confirmation logic
+        response = super().get(*args, **kwargs)
+
+        # On success, redirect to your Next.js app
+        if self.request.method == 'GET':
+            # Replace '/email-confirmed' with the actual route in your Next.js app
+            return redirect('http://localhost:3000/auth/email-confirmed')
+        
+        return response
