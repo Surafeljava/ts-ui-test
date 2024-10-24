@@ -3,14 +3,15 @@
 import { useAuth } from "./context/AuthContext";
 
 export default function Home() {
-  const {isAuthenticated, logout} = useAuth();
+  const {isAuthenticated, logout, userData} = useAuth();
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
 
-        <div className="text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)] flex flex-col items-center">
+        <div className="font-[family-name:var(--font-geist-mono)] flex flex-col text-sm text-center sm:text-left">
           <p className="mb-2">Welcome, to Test Savant.</p>
           {!isAuthenticated && <p>Login to continue to the dashboard.</p>}
+          {isAuthenticated && userData && <p className="text-blue-400">{userData.username}</p>}
         </div>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">

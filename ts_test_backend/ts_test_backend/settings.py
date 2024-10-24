@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',  # For Allauth registration
 
     'corsheaders',
+    'drf_yasg',
 ]
 
 # Required for Django Allauth

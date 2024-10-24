@@ -1,5 +1,6 @@
 // service.js
 import { getApi, postApi } from "../apiHelper";
+import Cookies from 'js-cookie';
 
 // User login (POST /api/login/)
 export const loginUser = (credentials) => {
@@ -23,5 +24,9 @@ export const logoutUser = () => {
 
 // Get user details (GET /auth/user/)
 export const getUserDetails = () => {
-  return getApi('/auth/user/');
+  const token = Cookies.get('token');
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  };
+  return getApi('/auth/user/', config);
 }

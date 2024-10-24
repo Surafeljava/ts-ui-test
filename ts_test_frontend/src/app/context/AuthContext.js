@@ -3,13 +3,25 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import { getUserDetails } from '../utils/services/auth.service';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userData, setUserData] = useState();
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+
+  useEffect(() => {
+    if(isAuthenticated){
+      getUserDetails().then((res) => {
+        setUserData(res.data);
+      }).catch((e) => {
+        console.log(e);
+      })
+    }
+  }, [isAuthenticated])
 
   useEffect(() => {
     const token = Cookies.get('token');
@@ -34,7 +46,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, loading }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, loading, userData }}>
       {children}
     </AuthContext.Provider>
   );

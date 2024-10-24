@@ -29,9 +29,10 @@ def google_login(request):
         # Get user info from token
         google_user_id = idinfo['sub']
         email = idinfo.get('email')
+        username = email.split("@")[0]
 
         # Create or get the user
-        user, created = User.objects.get_or_create(email=email)
+        user, created = User.objects.get_or_create(email=email, username=username)
 
         # Use your custom serializer to generate the JWT token
         serializer = CustomJWTSerializer(user)

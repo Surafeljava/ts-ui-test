@@ -37,9 +37,6 @@ function Login() {
   return (
     <div className='flex flex-col justify-center items-center w-full min-h-screen gap-2'>
         <p className='uppercase'>Login</p>
-        <GoogleSignIn />
-
-        <br/>
 
         <form onSubmit={handleLogin} className='flex flex-col gap-2'>
           <input
@@ -57,7 +54,11 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           />
           <button type="submit" className='w-full bg-green-400 py-2 rounded-lg text-black'>Submit</button>
+          <p>Are you new to Test Savant? <a href="/auth/register" className='text-blue-400 hover:text-blue-500 duration-200'>Register</a></p>
         </form>
+
+        <GoogleSignIn />
+
     </div>
   );
 }

@@ -61,6 +61,8 @@ function Register() {
                     onChange={(e) => setPassword(e.target.value)}
                     />
                     <button type="submit" className='w-full bg-green-400 py-2 rounded-lg text-black'>Submit</button>
+
+                    <p>Already have account? <a href="/auth/login" className='text-blue-400 hover:text-blue-500 duration-200'>Login</a></p>
                 </form>
             )}
 
