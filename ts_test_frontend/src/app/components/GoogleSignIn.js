@@ -3,25 +3,21 @@
 import { GoogleLogin } from '@react-oauth/google';
 
 import { useAuth } from '../context/AuthContext';
+import { googleLoginUser } from '../utils/services/auth.service';
 
 const GoogleSignIn = () => {
   const { login } = useAuth();
   const handleSuccess = async (credentialResponse) => {
-    // Send the Google OAuth token to your Django backend
-    const res = await fetch('http://localhost:8000/auth/social/google/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token: credentialResponse.credential }),
-    });
-
-    if (!res.ok) {
+    // Send the Google OAuth token to ts-backend
+    const response = await googleLoginUser({ token: credentialResponse.credential })
+    
+    if (response.status >= 200 && response.status < 300) {
+      console.log('Google signin success!');
+    } else {
       throw new Error('Failed to authenticate with Google');
     }
     
-    const data = await res.json();
-    console.log('JWT Token:', data.token);  // Log the JWT token
+    const data = response.data;
 
     login(data.token);
 };

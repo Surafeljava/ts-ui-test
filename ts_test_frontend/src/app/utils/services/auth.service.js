@@ -1,32 +1,35 @@
-// service.js
 import { getApi, postApi } from "../apiHelper";
 import Cookies from 'js-cookie';
 
-// User login (POST /api/login/)
+// User login
 export const loginUser = (credentials) => {
-  return postApi('/auth/jwt/login/', credentials);
+  return postApi('/account/auth/jwt/login/', credentials);
 };
 
-// User registration (POST /registration/)
+export const googleLoginUser = (credentials) => {
+  return postApi('/account/auth/social/google/', credentials);
+};
+
+// User registration
 export const registerUser = (userData) => {
-  return postApi('/auth/signup/', userData);
+  return postApi('/account/auth/signup/', userData);
 };
 
-// Refresh JWT token (POST /api/token/refresh/)
+// Refresh JWT token
 export const refreshToken = (refreshToken) => {
-  return postApi('/auth/token/refresh/', { refresh: refreshToken });
+  return postApi('/account/auth/jwt/token/refresh/', { refresh: refreshToken });
 };
 
-// User logout (POST /auth/logout/)
+// User logout
 export const logoutUser = () => {
-  return postApi('/auth/logout/');
+  return postApi('/account/auth/logout/');
 };
 
-// Get user details (GET /auth/user/)
+// Get user details
 export const getUserDetails = () => {
   const token = Cookies.get('token');
   const config = {
     headers: { Authorization: `Bearer ${token}` }
   };
-  return getApi('/auth/user/', config);
+  return getApi('/account/auth/user/', config);
 }
