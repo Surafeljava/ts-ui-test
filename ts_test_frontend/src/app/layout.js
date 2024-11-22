@@ -1,33 +1,32 @@
-import localFont from "next/font/local";
+// import localFont from "next/font/local";
 import { AuthProvider } from "./context/AuthContext";
 import "./globals.css";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import Navbar from "./components/Navbar";
 
 export const metadata = {
-  title: "TS test app",
-  description: "Test Savant",
+  title: "TestSavant AI",
+  description: "TestSavant AI",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet"/>
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className="font-rubik"
       >
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
           <AuthProvider>
-            {children}
+            <Navbar />
+            <div className="w-full min-h-screen bg-gray-900 lg:pl-72">
+              {children}
+            </div>
           </AuthProvider>
         </GoogleOAuthProvider>
       </body>
