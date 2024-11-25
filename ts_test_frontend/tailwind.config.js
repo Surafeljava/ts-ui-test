@@ -10,6 +10,8 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        tsPrimaryBlue: '#1698D5',
+        tsDarkBg: '#1B1933',
       },
       fontFamily: {
         "rubik": ["Rubik", "serif"],

@@ -10,7 +10,7 @@ export const metadata = {
   description: "TestSavant AI",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }) {  
   return (
     <html lang="en">
       <head>
@@ -23,10 +23,8 @@ export default function RootLayout({ children }) {
       >
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
           <AuthProvider>
-            <Navbar />
-            <div className="w-full min-h-screen bg-gray-900 lg:pl-72">
-              {children}
-            </div>
+            <Navbar children={children}/>
+            
           </AuthProvider>
         </GoogleOAuthProvider>
       </body>
